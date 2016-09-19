@@ -92,13 +92,17 @@ bool navcom3050::isOpen()
 
 /*
 Function: getBuffer
-Purpose: Return the buffer that we got
+Purpose: Return the buffer that we retrieved from the GPS
 */
 unsigned char * navcom3050::getBuffer()
 {
 	return myBuf;
 }
 
+/*
+Function: getMnemonic
+Purpose: Return the mnemonic that was retrived from the buffer
+*/
 std::string navcom3050::getMnemonic()
 {
 	std::string result = "";
@@ -115,7 +119,10 @@ std::string navcom3050::getMnemonic()
 	return result;
 }
 
-
+/*
+Function: getLatitude
+Purpose: Return the latitude of the GPS
+*/
 float navcom3050::getLatitude()
 {
 	int lat = 0;
@@ -126,6 +133,10 @@ float navcom3050::getLatitude()
 	return (float)((lat / 2048) + ( ((myBuf[25] & 0xF0) >> 8) /32768))/3600;
 }
 
+/*
+Function: getLongitude
+Purpose: Return the longitude of the GPS
+*/
 float navcom3050::getLongitude()
 {
 	int lon = 0;
@@ -137,6 +148,13 @@ float navcom3050::getLongitude()
 	return (float)((lon / 2048) + ( ((myBuf[25] & 0x0F)) /32768))/3600;
 }
 
+/*
+Function: getVelocities
+Purpose: Return three velocities in the following order:
+	    1) North
+	    2) East
+	    3) Up
+*/
 double * navcom3050::getVelocities()
 {
 	double *vel = new double[3];
@@ -155,7 +173,7 @@ double * navcom3050::getVelocities()
 /*
 Function: crc_CCITT
 Purpose: Performs a 16-bit cyclic redundancy check.
-NOTE: This should is never allowed to be called by a user!
+NOTE: This should never be called by the user!
 */
 unsigned short int crc_CCITT(unsigned char *buf, short int length)
 {
@@ -198,7 +216,8 @@ unsigned int crc_ASCII(unsigned short int crcword)
 
 /*
 Function: checkIntegrety
-Purpose: Check whether the recieved message is valid
+Purpose: Check whether the recieved message is valid.
+NOTE:  This function currently does not work.
 */
 bool navcom3050::checkIntegrety(ssize_t len)
 {
