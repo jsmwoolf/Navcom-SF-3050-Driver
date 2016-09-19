@@ -1,3 +1,10 @@
+/*
+Navcom SF 3050 Driver
+Created by: Joseph Woolf
+License: GNU GENERAL PUBLIC LICENSE 3.0.
+
+Note:  This driver requires at least Linux 3.0 to run properly.
+*/
 #include <linux/kernel.h>
 #include <linux/errno.h>
 #include <linux/init.h>
